@@ -6,11 +6,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.assertj.core.api.SoftAssertions;
 
 import static org.junit.Assert.assertSame;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BurgerTest {
+    SoftAssertions softAssertions = new SoftAssertions();
     private Burger burger;
 
     @Mock
@@ -48,9 +50,10 @@ public class BurgerTest {
 
         burger.removeIngredient(0);
 
-        Assert.assertEquals(1, burger.ingredients.size());
-        Assert.assertFalse(burger.ingredients.contains(ingredientMockFirst));
-        Assert.assertTrue(burger.ingredients.contains(ingredientMockSecond));
+        softAssertions.assertThat(burger.ingredients.size()).isEqualTo(1);
+        softAssertions.assertThat(burger.ingredients.contains(ingredientMockFirst)).isFalse();
+        softAssertions.assertThat(burger.ingredients.contains(ingredientMockSecond)).isTrue();
+        softAssertions.assertAll();
     }
 
     @Test
@@ -60,9 +63,10 @@ public class BurgerTest {
 
         burger.moveIngredient(0, 1);
 
-        Assert.assertEquals(2, burger.ingredients.size());
-        Assert.assertTrue(burger.ingredients.get(0) == ingredientMockSecond);
-        Assert.assertTrue(burger.ingredients.get(1) == ingredientMockFirst);
+        softAssertions.assertThat(burger.ingredients.size()).isEqualTo(2);
+        softAssertions.assertThat(burger.ingredients.get(0)).isEqualTo(ingredientMockSecond);
+        softAssertions.assertThat(burger.ingredients.get(1)).isEqualTo(ingredientMockFirst);
+        softAssertions.assertAll();
     }
 
 
